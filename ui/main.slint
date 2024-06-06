@@ -1,0 +1,76 @@
+import { Button,VerticalBox,ListView, ComboBox, LineEdit} from "std-widgets.slint";
+export component AppWindow inherits Window {
+    callback play_click();
+    title: "AlbinoLauncher";
+    preferred-height: 300px;
+    preferred-width: 300px;
+    public pure function fit_width(h: length) -> length {
+        return root.width - h;
+    }
+    public pure function fit_height(h: length) -> length {
+        return root.height - h;
+    }
+    out property <string> version;
+    in-out property <string> name;
+    version: "1.8.9";
+    play_button := Button {
+        text: "Play";
+        clicked => {
+            play_click();
+        }
+        y: fit_height(48px);
+        x: fit_width(root.width / 2);
+        width: 100px;
+        height: 30px;
+    }
+
+    ComboBox {
+        y: fit_height(49px);
+        x: 7px;
+        model: ["1.8.9", "1.16.5"];
+        selected => {
+            version = self.current-value;
+        }
+    }
+
+    min-width: 500px;
+    min-height: 400px;
+    Text {
+        font-size: 34px;
+        height: 46px;
+        width: 214px;
+        text: "AlbinoClient";
+        x: 103px;
+        y: 13px;
+        horizontal-alignment: center;
+    }
+
+    Image {
+        height: fit_height(150px);
+        width: fit_width(16px);
+        source: @image-url("background.png");
+        x: 10px;
+        y: 64px;
+        horizontal-alignment: center;
+    }
+
+    logo := Image {
+        height: 52px;
+        width: 51px;
+        source: @image-url("Logo5.png");
+        x: 307px;
+        y: 5px;
+    }
+
+    username_input := LineEdit {
+        height: 42px;
+        width: 200px;
+        text: name;
+        edited(user) => {
+            name = user;
+        }
+        placeholder-text: "Username";
+        x: fit_width(218px);
+        y: fit_height(54px);
+    }
+}
